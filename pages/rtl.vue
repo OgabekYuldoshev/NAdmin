@@ -19,7 +19,7 @@
                     v-for="(option, index) in bigLineChartCategories"
                     :key="option.name"
                     class="btn btn-sm btn-primary btn-simple"
-                    :class="{ active: bigLineChart.activeIndex === index }"
+                    :class="{ active: bigLinzeChart.activeIndex === index }"
                     :id="index"
                   >
                     <input

@@ -1,36 +1,8 @@
 <template>
-  <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
+  <div>
     <notifications></notifications>
-    <side-bar
-      :background-color="sidebarBackground"
-      short-title="CT"
-      title="Creative Tim"
-    >
-      <template slot-scope="props" slot="links">
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.dashboard'),
-            icon: 'tim-icons icon-chart-pie-36',
-            path: '/starter-page'
-          }"
-        >
-        </sidebar-item>
-      </template>
-    </side-bar>
-    <div class="main-panel" :data="sidebarBackground">
-      <dashboard-navbar></dashboard-navbar>
-      <router-view name="header"></router-view>
-
-      <div
-        :class="{ content: !isFullScreenRoute }"
-        @click="toggleSidebar"
-      >
-        <zoom-center-transition :duration="200" mode="out-in">
-          <!-- your content here -->
+    <div>
           <router-view></router-view>
-        </zoom-center-transition>
-      </div>
-      <content-footer v-if="!isFullScreenRoute"></content-footer>
     </div>
   </div>
 </template>

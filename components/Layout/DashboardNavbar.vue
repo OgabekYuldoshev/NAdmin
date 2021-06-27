@@ -92,19 +92,21 @@
         <template
           slot="title"
         >
-          <div class="photo"><img src="img/mike.jpg" /></div>
+          <div class="photo"><img :src="baseUrl + $auth.user.avatar" /></div>
           <b class="caret d-none d-lg-block d-xl-block"></b>
           <p class="d-lg-none">Log out</p>
         </template>
         <li class="nav-link">
-          <a href="#" class="nav-item dropdown-item">Profile</a>
+          <a href="/user" class="nav-item dropdown-item">Profile</a>
         </li>
         <li class="nav-link">
           <a href="#" class="nav-item dropdown-item">Settings</a>
         </li>
         <div class="dropdown-divider"></div>
         <li class="nav-link">
-          <a href="#" class="nav-item dropdown-item">Log out</a>
+          <nuxt-link to="/login"  class="nav-item dropdown-item">
+          <a @click="$auth.logout()">Log out</a>
+          </nuxt-link>
         </li>
       </base-dropdown>
     </ul>
@@ -113,6 +115,7 @@
 <script>
 import { CollapseTransition } from 'vue2-transitions';
 import { BaseNav, Modal } from '@/components';
+import {baseUrl} from "../../constants"
 
 export default {
   components: {
@@ -135,6 +138,7 @@ export default {
   },
   data() {
     return {
+      baseUrl:baseUrl,
       activeNotifications: false,
       showMenu: false,
       searchModalVisible: false,

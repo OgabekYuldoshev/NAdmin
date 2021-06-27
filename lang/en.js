@@ -1,7 +1,7 @@
 module.exports = {
   "sidebar": {
-    "title": "Creative Tim",
-    "shortTitle": "CT",
+    "title": "BlogPost",
+    "shortTitle": "BP",
     "dashboard": "Dashboard",
     "pages": "Pages",
     "pricing": "Pricing",

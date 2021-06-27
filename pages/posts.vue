@@ -77,7 +77,7 @@
             min-width="150"
             sortable
             align="right"
-            header-align="right"
+            header-align="right"z
             label="Salary"
             property="salary"
           ></el-table-column>

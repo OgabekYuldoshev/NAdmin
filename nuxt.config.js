@@ -65,8 +65,47 @@ export default {
   */
   modules: [
     '@nuxtjs/pwa',
-    'nuxt-i18n'
+    'nuxt-i18n',
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
+  axios:{
+    baseUrl:'http://192.168.1.6:8000/api'
+  },
+  router: {
+    middleware: [
+      'auth'
+    ]
+  },
+  auth: {
+    watchLoggedIn: true,
+    rewriteRedirects: false,
+    resetOnError: true,
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+      home: '/'
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          required: true,
+          type: 'Bearer'
+        },
+        user: {
+          property: false,
+          // autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/alogin', method: 'post'},
+          logout: false,
+          user: { url: '/admin', method: 'get'},
+        },
+      }
+    }
+  },
   i18n: {
     locales: [
       {
