@@ -7,16 +7,14 @@
       <div class="block block-three"></div>
       <div class="block block-four"></div>
       <a href="javascript:void(0)">
-        <img class="avatar" src="img/emilyz.jpg" alt="..." />
-        <h5 class="title">Mike Andrew</h5>
+        <img class="avatar" :src="baseUrl+$auth.user.avatar" alt="..." />
+        <h5 class="title">{{$auth.user.fullname}}</h5>
       </a>
-      <p class="description">Ceo/Co-Founder</p>
+      <p class="description">{{$auth.user.role}}</p>
     </div>
     <p></p>
-    <div class="card-description">
-      Do not be scared of the truth because we need to restart the human
-      foundation in truth And I love you like Kanye loves Kanye I love Rick
-      Owens’ bed design but the back is...
+    <div class="card-description text-center">
+      {{$auth.user.intro}}
     </div>
 
     <div slot="footer" class="button-container">
@@ -33,6 +31,13 @@
   </card>
 </template>
 <script>
-export default {};
+import {baseUrl} from "../../constants/index"
+export default {
+  data(){
+    return{
+      baseUrl:baseUrl
+    }
+  }
+};
 </script>
 <style></style>

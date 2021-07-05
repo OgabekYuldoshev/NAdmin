@@ -352,6 +352,7 @@ export default {
       }, { name: 'Sessions', icon: 'tim-icons icon-tap-02' }];
     }
   },
+
   methods: {
     initBigChart (index) {
       let chartData = {

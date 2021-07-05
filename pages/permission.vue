@@ -2,25 +2,111 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header">
-          <h5 class="title">100 Awesome Nucleo Icons</h5>
-          <p class="category">
-            Handcrafted by our friends from
-            <a href="https://nucleoapp.com/?ref=1712">NucleoApp</a>
-          </p>
-        </div>
-        <div class="card-body all-icons">
-          <div class="row">
-            <h1 class="title">hello</h1>
-          </div>
-        </div>
+         <el-table
+          :data="$store.state.user.allUsers.filter(data => !search || data.fullname.toLowerCase().includes(search.toLowerCase()))"
+          style="width: 100%">
+          <el-table-column label="Avatar" prop="avatar" width="85">
+            <template slot-scope="scope">
+              <el-avatar :size="50" :src="baseUrl + scope.row.avatar"></el-avatar>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="Fullname"
+            width="200">
+            <template slot-scope="scope">
+              <p :class="$auth.user.id === scope.row.id ? 'text-success text-decoration-underline' : null">{{scope.row.fullname}}</p>
+            </template>
+          </el-table-column>
+          <el-table-column
+            width="200"
+            label="Email"
+            prop="email">
+          </el-table-column>
+          <el-table-column
+          label="Role">
+            <template slot-scope="scope">
+              <el-select v-if="$auth.user.id !== scope.row.id" @change="handleRole($event, scope.row)" :value="scope.row.role" placeholder="Select Role">
+              <el-option
+                v-for="role in roles"
+                :key="role.value"
+                :label="role.label"
+                :value="role.value">
+              </el-option>
+            </el-select>
+            <div v-else>
+              You don't change your role!
+            </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="right">
+            <template slot="header" slot-scope="scope">
+              <el-input
+                v-model="search"
+                size="mini"
+                placeholder="Type to search"/>
+            </template>
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
     </div>
   </div>
 </template>
 <script>
+import {Table, Button,TableColumn,Avatar,Select,Option} from "element-ui"
+import {baseUrl} from "../constants"
 export default {
-  name: 'permission'
+  name: 'permission',
+  components:{
+    [Table.name]:Table,
+    [Button.name]:Button,
+    [TableColumn.name]:TableColumn,
+    [Avatar.name]:Avatar,
+    [Select.name]:Select,
+    [Option.name]:Option
+  },
+      data() {
+      return {
+        baseUrl:baseUrl,
+        search: '',
+        selectedRole:'',
+        roles:[
+          {
+            label:"ADMIN",
+            value:"ADMIN"
+          },
+          {
+            label:"USER",
+            value:"USER"
+          },
+          {
+            label:"MODERATOR",
+            value:"MODERATOR"
+          }
+        ]
+      }
+    },
+    async fetch(){
+      await this.$api.user.getUsers()
+    },
+    methods: {
+      handleRole(val, row) {
+        this.$api.user.setRole(row.id, val)
+        this.$nuxt.refresh()
+      },
+      handleEdit(index, row) {
+        console.log(index, row);
+      },
+      handleDelete(index, row) {
+        console.log(index, row);
+      }
+    },
 };
 </script>
 <style></style>

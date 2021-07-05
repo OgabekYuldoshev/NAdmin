@@ -18,23 +18,23 @@
         <sidebar-item
           :link="{
             name: $t('sidebar.postpermission'),
-            icon: 'tim-icons icon-puzzle-10',
+            icon: 'tim-icons icon-paper',
             path: '/posts'
           }"
         ></sidebar-item>
         <sidebar-item
           :link="{
-            name: $t('sidebar.permission'),
-            icon: 'tim-icons icon-atom',
+            name: $t('sidebar.userpermission'),
+            icon: 'tim-icons icon-single-02',
             path: '/permission'
           }"
         >
         </sidebar-item>
         <sidebar-item
           :link="{
-            name: $t('sidebar.maps'),
-            icon: 'tim-icons icon-pin',
-            path: '/google'
+            name: $t('sidebar.controls'),
+            icon: 'tim-icons icon-settings-gear-63',
+            path: '/controls'
           }"
         >
         </sidebar-item>
@@ -48,13 +48,13 @@
         >
         </sidebar-item>
 
-        <sidebar-item
+        <!-- <sidebar-item
           :link="{
             name: $t('sidebar.userProfile'),
             icon: 'tim-icons icon-single-02',
             path: '/user' }"
         >
-        </sidebar-item>
+        </sidebar-item> -->
 
         <sidebar-item
           :link="{
@@ -136,6 +136,10 @@
         return this.$route.path === '/maps/full-screen'
       }
     },
+    // async mounted(){
+    //     await this.$api.post.getAllPosts()
+    //     await this.$api.category.allCategory()
+    // },
     methods: {
       toggleSidebar() {
         if (this.$sidebar.showSidebar) {

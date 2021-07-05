@@ -1,19 +1,19 @@
 <template>
-  <card>
+  <div>
+    <card>
     <h5 slot="header" class="title">Edit Profile</h5>
     <form @submit.prevent="updateProfile">
       <div class="row">
         <div class="col-md-5">
           <base-input
             type="text"
-            label="Company"
-            :disabled="true"
-            placeholder="Company"
-            v-model="user.company"
+            label="Fullname"
+            placeholder="Fullname"
+            v-model="user.fullname"
           >
           </base-input>
         </div>
-        <div class="col-md-3">
+        <!-- <div class="col-md-3">
           <base-input
             type="text"
             label="Username"
@@ -21,8 +21,8 @@
             v-model="user.username"
           >
           </base-input>
-        </div>
-        <div class="col-md-4">
+        </div> -->
+        <div class="col-md-5">
           <base-input
             type="email"
             label="Email address"
@@ -33,7 +33,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-6">
           <base-input
             type="text"
@@ -52,9 +52,9 @@
           >
           </base-input>
         </div>
-      </div>
+      </div> -->
 
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-12">
           <base-input
             type="text"
@@ -64,9 +64,9 @@
           >
           </base-input>
         </div>
-      </div>
+      </div> -->
 
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-4">
           <base-input
             type="text"
@@ -93,15 +93,15 @@
           >
           </base-input>
         </div>
-      </div>
+      </div> -->
 
       <div class="row">
         <div class="col-md-12">
           <base-input label="About Me">
             <textarea
               class="form-control"
-              placeholder="ZIP Code"
-              v-model="user.aboutMe"
+              placeholder="Write"
+              v-model="user.status"
             >
             </textarea>
           </base-input>
@@ -109,32 +109,74 @@
       </div>
 
       <base-button native-type="submit" type="primary" class="btn-fill">
-        Save
+        Update
       </base-button>
     </form>
   </card>
+
+    <card>
+    <h5 slot="header" class="title">Change Password</h5>
+    <form @submit.prevent="changePassword">
+      <div class="row">
+        <div class="col-md-5">
+          <base-input
+            type="password"
+            label="Password"
+            placeholder="Password"
+            v-model="password"
+          >
+          </base-input>
+        </div>
+        <div class="col-md-5">
+          <base-input
+          type="password"
+            label="Confirm Password"
+            placeholder="Confirm Password"
+            v-model="confirmPassword"
+          >
+          </base-input>
+        </div>
+      </div>
+
+      <base-button native-type="submit" type="primary" class="btn-fill">
+        Set Password
+      </base-button>
+    </form>
+  </card>
+  </div>
+  
 </template>
 <script>
 export default {
   data() {
     return {
       user: {
-        company: 'Creative Code Inc.',
-        username: 'michael23',
-        email: '',
-        firstName: 'Mike',
-        lastName: 'Andrew',
-        address: 'Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09',
-        city: 'New York',
-        country: 'USA',
-        postalCode: '',
-        aboutMe: `Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.`
-      }
+        fullname: this.$auth.user.fullname,
+        // username: 'michael23',
+        email: this.$auth.user.email,
+        // firstName: 'Mike',
+        // lastName: 'Andrew',
+        // address: 'Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09',
+        // city: 'New York',
+        // country: 'USA',
+        // postalCode: '',
+        status:this.$auth.user.intro
+      },
+      password: null,
+      confirmPassword: null
     };
   },
   methods: {
     updateProfile() {
-      alert('Your data: ' + JSON.stringify(this.user));
+      this.$api.user.update(this.user)
+      this.$router.go()
+
+    },
+    async changePassword() {
+      // this.$router.go()
+      console.log(this.$nuxt.refresh())
+      console.log(this.$router)
+      console.log(this.$nuxt)
     }
   }
 };

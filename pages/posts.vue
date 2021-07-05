@@ -3,150 +3,101 @@
     <div class="col-md-12">
       <card card-body-classes="table-full-width">
         <h4 slot="header" class="card-title">Striped table</h4>
-        <el-table :data="tableData">
+        <el-table :data="$store.state.post.allPosts">
           <el-table-column
             min-width="150"
             sortable
-            label="Name"
-            property="name"
+            label="Author"
+            property="user.fullname"
           ></el-table-column>
           <el-table-column
             min-width="150"
             sortable
-            label="Country"
-            property="country"
+            label="Title"
+            property="title"
           ></el-table-column>
           <el-table-column
             min-width="150"
             sortable
-            label="City"
-            property="city"
+            label="Slug"
+            property="slug"
           ></el-table-column>
           <el-table-column
             min-width="150"
             sortable
-            align="right"
-            header-align="right"
-            label="Salary"
-            property="salary"
+            label="Created"
+            property="createdAt"
           ></el-table-column>
-          <el-table-column
+           <el-table-column
             label="Published"
-            property="published">
+            width="100">
             <template slot-scope="scope">
-              <el-switch
-                v-model="swith"
-                @change="handleSwitch(scope.$index, scope.row)"></el-switch>
+              <div :class="scope.row.published ? 'success' : 'pending'"></div>
             </template>
           </el-table-column>
+          <el-table-column
+          label="Action"
+          width="100">
+          <template slot-scope="scope">
+            <el-button type="primary" icon="el-icon-view" @click="handleSelect(scope.$index, $store.state.post.allPosts)" circle></el-button>
+          </template>
+        </el-table-column>
         </el-table>
       </card>
+      <el-dialog
+        :visible.sync="openModal"
+        custom-class="dialog"
+        width="80%">
+        <span slot="title">{{selectedData.title}}</span>
+        <span v-html="selectedData.content"></span>
+        <span slot="footer" class="dialog-footer">
+          <el-button v-if="selectedData.published" @click="published()">Unpublished</el-button>
+          <el-button v-else type="primary" @click="published()">Published</el-button>
+        </span>
+      </el-dialog>
     </div>
 
-    <!-- <div class="col-md-12">
-      <card class="card-plain" body-classes="table-full-width">
-        <template slot="header">
-          <h4 class="card-title">Table on Plain Background</h4>
-          <p class="category">Here is a subtitle for this table</p>
-        </template>
-        <el-table
-          header-cell-class-name="table-transparent"
-          header-row-class-name="table-transparent"
-          row-class-name="table-transparent"
-          :data="tableData"
-        >
-          <el-table-column
-            min-width="150"
-            sortable
-            label="Name"
-            property="name"
-          ></el-table-column>
-          <el-table-column
-            min-width="150"
-            sortable
-            label="Country"
-            property="country"
-          ></el-table-column>
-          <el-table-column
-            min-width="150"
-            sortable
-            label="City"
-            property="city"
-          ></el-table-column>
-          <el-table-column
-            min-width="150"
-            sortable
-            align="right"
-            header-align="right"z
-            label="Salary"
-            property="salary"
-          ></el-table-column>
-        </el-table>
-      </card>
-    </div> -->
+
   </div>
 </template>
 <script>
-import { Table, TableColumn, Switch } from 'element-ui';
-
+import { Table, TableColumn, Button, Checkbox, Dialog } from 'element-ui';
+import { Modal, BaseAlert } from '@/components';
 export default {
   name: 'regular',
   components: {
     [Table.name]: Table,
     [TableColumn.name]: TableColumn,
-    [Switch.name]: Switch
-
+    [Checkbox.name]: Checkbox,
+    [Dialog.name]: Dialog,
+    [Button.name]: Button,
+    Modal,
+    BaseAlert
   },
   methods:{
-    handleSwitch(a, b){
-      alert(a, b)
+    handleSelect(a, b){
+      this.openModal = true
+      this.selectedData = b[a]
+    },
+    published(){
+      this.openModal = false
+      this.$api.post.setPublished(this.selectedData.id, !this.selectedData.published)
+      this.$notify({
+        message:
+          'Post Updated Successfully',
+        timeout: 3000,
+        icon: 'tim-icons icon-bell-55',
+      });
+      this.$nuxt.refresh()
     }
   },
+  async fetch(){
+      await this.$api.post.getAllPosts()
+    },
   data() {
     return {
-      swith: false,
-      tableData: [
-        {
-          id: 1,
-          name: 'Dakota Rice',
-          salary: '$36.738',
-          country: 'Niger',
-          city: 'Oud-Turnhout',
-          published: false
-        },
-        {
-          id: 2,
-          name: 'Minerva Hooper',
-          salary: '$23,789',
-          country: 'Curaçao',
-          city: 'Sinaai-Waas',
-          published: false
-        },
-        {
-          id: 3,
-          name: 'Sage Rodriguez',
-          salary: '$56,142',
-          country: 'Netherlands',
-          city: 'Baileux',
-          published: false
-        },
-        {
-          id: 4,
-          name: 'Philip Chaney',
-          salary: '$38,735',
-          country: 'Korea, South',
-          city: 'Overland Park',
-          published: false
-        },
-        {
-          id: 5,
-          name: 'Doris Greene',
-          salary: '$63,542',
-          country: 'Malawi',
-          city: 'Feldkirchen in Kärnten',
-          published: false
-        }
-      ]
+      openModal:false,
+      selectedData: {}
     };
   }
 };
@@ -154,5 +105,20 @@ export default {
 <style>
 .table-transparent {
   background-color: transparent !important;
+}
+.dialog{
+  background: #1e1e2f;
+}
+.success{
+  width: 30px;
+  height: 30px;
+  background: #3ea13e;
+  border-radius: 50%;
+}
+.pending{
+  width: 30px;
+  height: 30px;
+  background: #f29339;
+  border-radius: 50%;
 }
 </style>

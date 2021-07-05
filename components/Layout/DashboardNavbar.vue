@@ -145,6 +145,7 @@ export default {
       searchQuery: ''
     };
   },
+
   methods: {
     capitalizeFirstLetter(string) {
       if (!string || typeof string !== 'string') {

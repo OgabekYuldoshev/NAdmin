@@ -1,18 +1,12 @@
 export default (axios, store) => ({
-    createNewPost(data){
-      axios.post(`/post/create`, data,  {
-        headers:{
-          "Accept":"multipart/form-data"
-        },
-        cridentials:true
+    getAllPosts(){
+      axios.get('/post/all').then(result=>{
+        store.commit("post/allPosts", result.data)
       })
     },
-    deletePost(postId, userId){
-      axios.delete(`post/delete/${postId}`)
-    },
-    getNewestPosts(){
-      axios.get('/post/get').then(result=>{
-        store.commit("post/setNewestPosts", result.data)
+    setPublished(id, data){
+      axios.put(`/post/${id}`, {published: data}).then(result=>{
+        console.log(data, result)
       })
     }
   })
