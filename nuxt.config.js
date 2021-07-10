@@ -16,19 +16,36 @@
 export default {
   mode: 'universal',
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: 'Nuxt Black Dashboard',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+    meta: [{
+        charset: 'utf-8'
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: process.env.npm_package_description || ''
+      }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800'},
-      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css'}
+    link: [{
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.png'
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800'
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css'
+      }
     ],
     bodyAttrs: {
       class: '' // Add `white-content` class here to enable "white" mode.
@@ -38,9 +55,11 @@ export default {
     linkExactActiveClass: 'active'
   },
   /*
-  ** Customize the progress-bar color
-  */
-  loading: { color: '#fff' },
+   ** Customize the progress-bar color
+   */
+  loading: {
+    color: '#fff'
+  },
   /*
    ** Global CSS
    */
@@ -50,27 +69,29 @@ export default {
     'assets/sass/black-dashboard.scss'
   ],
   /*
-  ** Plugins to load before mounting the App
-  */
+   ** Plugins to load before mounting the App
+   */
   plugins: [
     `~/plugins/dashboard-plugin.js`,
-    { src: "~/plugins/api.js" }
+    {
+      src: "~/plugins/api.js"
+    }
   ],
   /*
-  ** Nuxt.js dev-modules
-  */
+   ** Nuxt.js dev-modules
+   */
   buildModules: [],
   /*
-  ** Nuxt.js modules
-  */
+   ** Nuxt.js modules
+   */
   modules: [
     '@nuxtjs/pwa',
     'nuxt-i18n',
     '@nuxtjs/axios',
     '@nuxtjs/auth-next'
   ],
-  axios:{
-    baseUrl:'http://192.168.1.7:8000/api'
+  axios: {
+    baseUrl: 'http://192.168.1.6:8000/api'
   },
   router: {
     middleware: [
@@ -99,16 +120,21 @@ export default {
           // autoFetch: true
         },
         endpoints: {
-          login: { url: '/alogin', method: 'post'},
+          login: {
+            url: '/alogin',
+            method: 'post'
+          },
           logout: false,
-          user: { url: '/admin', method: 'get'},
+          user: {
+            url: '/admin',
+            method: 'get'
+          },
         },
       }
     }
   },
   i18n: {
-    locales: [
-      {
+    locales: [{
         code: 'en',
         file: 'en.js'
       },
@@ -122,15 +148,14 @@ export default {
     defaultLocale: 'en',
   },
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     transpile: [/^element-ui/],
     /*
-    ** You can extend webpack config here
-    */
-    extend (config, ctx) {
-    },
+     ** You can extend webpack config here
+     */
+    extend(config, ctx) {},
     babel: {
       plugins: [
         [

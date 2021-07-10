@@ -23,6 +23,7 @@
           }"
         ></sidebar-item>
         <sidebar-item
+        v-show="$auth.user.role === 'ADMIN'"
           :link="{
             name: $t('sidebar.userpermission'),
             icon: 'tim-icons icon-single-02',

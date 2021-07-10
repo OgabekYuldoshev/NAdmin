@@ -25,7 +25,7 @@
           <el-table-column
           label="Role">
             <template slot-scope="scope">
-              <el-select v-if="$auth.user.id !== scope.row.id" @change="handleRole($event, scope.row)" :value="scope.row.role" placeholder="Select Role">
+              <el-select  :disabled="$auth.user.id === scope.row.id" @change="handleRole($event, scope.row)" :value="scope.row.role" placeholder="Select Role">
               <el-option
                 v-for="role in roles"
                 :key="role.value"
@@ -33,9 +33,6 @@
                 :value="role.value">
               </el-option>
             </el-select>
-            <div v-else>
-              You don't change your role!
-            </div>
             </template>
           </el-table-column>
           <el-table-column
@@ -48,6 +45,7 @@
             </template>
             <template slot-scope="scope">
               <el-button
+                :disabled="$auth.user.id === scope.row.id"
                 size="mini"
                 type="danger"
                 @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
@@ -78,10 +76,6 @@ export default {
         selectedRole:'',
         roles:[
           {
-            label:"ADMIN",
-            value:"ADMIN"
-          },
-          {
             label:"USER",
             value:"USER"
           },
@@ -94,6 +88,11 @@ export default {
     },
     async fetch(){
       await this.$api.user.getUsers()
+    },
+    created(){
+      if(this.$auth.user.role !== 'ADMIN'){
+        this.$router.push('/')
+      }
     },
     methods: {
       handleRole(val, row) {
